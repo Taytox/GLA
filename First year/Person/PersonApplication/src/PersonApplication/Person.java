@@ -38,16 +38,23 @@ public String getLast(){
 public int getAge(){
 return age; 
 }
+public String getSpouseName(){
+   return spouse.getFullName(); 
+}
 public int getWeight(){
 return weight; 
 }
 public char getGender(){
     return gender; 
 }
+public void setSpouse(Person newSpouse){
+    spouse = newSpouse;
+    hasSpouse = true;
+}
 public String getFullName(){
    return firstName + " " + lastName;
 }
-public boolean status(){
+public boolean getStatus(){
     return hasSpouse;
 }
 public double bmi(){
@@ -73,9 +80,40 @@ else{
 }
 
 System.out.println("This persons BMI is " + bmi + " this is in the " + status + " Category");
-    
 }
 
+public void getMarried(Person spouse){
+   
+ if (getStatus() == false && spouse.getStatus() == false && getAge() >= 18 && spouse.getAge() >= 18 )
+ {
+  setSpouse(spouse);
+  spouse.setSpouse(this);
+ System.out.println(this.getFullName() + " has married " + spouse.getFullName());
+}
+ else{
+     
+     if(getStatus() == true) {
+         System.out.println("The marriage could not go ahead " + this.getFullName() + " is already married!");
+     }
+     if(spouse.getStatus() == true){
+         System.out.println("The marriage could not go ahead " + spouse.getFullName() + " is already married!"); 
+     }
+     if(getAge() <18) {
+         System.out.println("The marriage could not go ahead " + this.getFullName() + " is under 18");
+     }
+     if(spouse.getAge() <18) {
+         System.out.println("The marriage could not go ahead " + spouse.getFullName() + " is under 18");
+     }  
+ }
+
+}
+ public void procreate(Person parent1,Person parent2){
+     if (parent1.spouse == parent2.spouse){
+         
+         
+     }
+ 
+ }
 }
 
 
