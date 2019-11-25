@@ -31,7 +31,7 @@ public class MortgageApplication {
     public int getGross(){
         return grossSalary;
     }
-    public void calcNetSalary(boolean TaxSystem){
+    public int calcNetSalary(boolean TaxSystem){
         double taxableAmount = 0;
         int personalAllowance = 0;
         double taxAmount = 0;
@@ -61,45 +61,25 @@ public class MortgageApplication {
            for (int i = 1; i <= 4; i++){
             if (grossSalary >= personalAllowance + scotTaxThresholds[i]) //if their gross salary is less than their personal allowance and the current tax threshold
             {
-                taxAmount = taxAmount + ((scotTaxThresholds[i] - scotTaxThresholds[i-1]) * scotTaxRates[i]); 
+                taxableAmount = (scotTaxThresholds[i] - scotTaxThresholds[i-1]); //Find out how much of the amount is taxable in this bracket
+                taxAmount = taxAmount + (taxableAmount * scotTaxRates[i]);  //Times the ammount taxable by the tax rate. 
                 System.out.println("The ammount that is taxible in tax bracket " + i + " is " + taxableAmount + "the ammount taxed is " + (int)taxAmount);
+                
+                if( i == 4 && grossSalary > 150000){ //Checks if the top rate of tax needs to be applied
+                    taxableAmount = grossSalary - 150000; // take the top threshold away from the gross Salary to get the taxable amount. 
+                    taxAmount = taxAmount + taxableAmount * scotTaxRates[5]; // Times the taxable ammount by the top rate taxrate. 
+                    System.out.println("The ammount that is taxible in tax bracket " + i + " is " + taxableAmount + "the ammount taxed is " + (int)taxAmount);
+                }
             }
+            
             else if(grossSalary < personalAllowance + scotTaxThresholds[i])
             {
-                taxableAmount  = (grossSalary - (personalAllowance + scotTaxThresholds[i-1]));
-                taxAmount = taxAmount + (taxableAmount * scotTaxRates[i]);
+                taxableAmount  = (grossSalary - (personalAllowance + scotTaxThresholds[i-1])); //Find the difference between the gross Salary and the previous threshold + their personal allowance.
+                taxAmount = taxAmount + (taxableAmount * scotTaxRates[i]); //Times the ammount taxable by the tax rate. 
                 System.out.println("The final ammount that is taxible in tax bracket " + i + " is " + taxableAmount + "the ammount taxed is " + (int)taxAmount);
                 break;
             }
             }
+           
        }
-           
-           
-           
-           /* 
-         //for (int i = 1;i < 5; i++){
-             if (grossSalary < scotTaxThresholds[0]){
-                 taxAmount = 0; 
-             }
-             if (grossSalary >= scotTaxThresholds[i] )
-             {
-                 taxableAmount = ((scotTaxThresholds[i] +1) - scotTaxThresholds[i-1]); //Finds the taxable amount inside this bracket
-                 taxAmount = taxAmount + (taxableAmount * scotTaxRates[i]); // applys the tax rate to the taxable amount and increases the total amount of tax payable.
-                 System.out.println("The ammount that is taxible in tax bracket " + i + " is " + taxableAmount + "the ammount taxed is " + (int)taxAmount);
-                 
-             }
-             else if (grossSalary < scotTaxThresholds[i]) {
-                 taxableAmount  = (grossSalary - scotTaxThresholds[i-1]);
-                 taxAmount = taxAmount + (taxableAmount * scotTaxRates[i]);
-                 System.out.println("The final ammount that is taxible in tax bracket " + i + " is " + taxableAmount + "the ammount taxed is " + (int)taxAmount);
-                 break;
-             }
-            System.out.println ("Your personal allowence is " + personalAllowance); 
-
-          } 
-       }   
-    } */
-}
-        //System.out.println(personalAllowance);
-        //return netSalary;
-    }
+ 
