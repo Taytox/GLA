@@ -31,16 +31,31 @@ public class MortgageApplication {
     public int getGross(){
         return grossSalary;
     }
-    public int calcNetSalary(boolean TaxSystem){
-        double taxableAmount = 0;
-        int personalAllowance = 0;
-        double taxAmount = 0;
+    public void calcNetSalary(boolean taxSystem, boolean employmentStatus){
         int niAmount = 0; 
-        int[] scotTaxThresholds ={0,2049,12444,30930,150000}; // these are added to the applicants personal allowances to generate the thresholds, except for 150000 which is the flat limit for the top rate
-        double[] scotTaxRates = {0,0.19,0.20,0.21,0.41,0.46};
-        boolean scotlandTax = TaxSystem; //Is the user in England & Wales or Scotland. 
+
+        boolean scotlandTax = taxSystem;//Is the user in England & Wales or Scotland. 
+        boolean selfEmployed = employmentStatus; //If someone is self employed they pay NI at different thresholds.
         
-        if(grossSalary > 125000){ //If someone earns over £125,000 their personal allowance is £0
+
+        
+       if(scotlandTax == true) { //If the Applicant is located in Scotland an has to have scottish income tax applied
+
+           if(selfEmployed == true) { //If the applicant is self employed.
+               
+           }
+           else {  // if the user is not self employed
+               
+           }
+       }
+       
+       
+    
+}
+    private void calcPersonalAllowance(int pA){
+        int personalAllowance = pA;
+        
+                if(grossSalary > 125000){ //If someone earns over £125,000 their personal allowance is £0
             personalAllowance = 0;
         }
         else if (grossSalary >=100000) //If someone earns over £100,000 then their personal allowance is reduced by £1 for ever £2 over until £125,000
@@ -55,9 +70,19 @@ public class MortgageApplication {
             else{ // if the applicant does not earn over £100,000 apply the default rate of £12,500
                     personalAllowance = 12500; 
                     }   
+    }
+    private void scottishIncomeTax(){
+        /*
+       This method takes a boolean to represnt which tax system needs to be used. It calculates their presonal tax allowence and then determines how much tax they pay in each band.   
+       Scottish income tax results were tested against :  https://www.scotfact.com/ScottishTaxCalculator 
+        */
         
-       if(scotlandTax == true) { //If the Applicant is located in Scotland an has to have scottish income tax applied
-         
+        double taxableAmount = 0;
+        int[] scotTaxThresholds ={0,2049,12444,30930,150000}; // these are added to the applicants personal allowances to generate the thresholds, except for 150000 which is the flat limit for the top rate
+        double[] scotTaxRates = {0,0.19,0.20,0.21,0.41,0.46};
+        int personalAllowance = 0;
+        double taxAmount = 0;
+        
            for (int i = 1; i <= 4; i++){
             if (grossSalary >= personalAllowance + scotTaxThresholds[i]) //if their gross salary is less than their personal allowance and the current tax threshold
             {
@@ -67,11 +92,10 @@ public class MortgageApplication {
                 
                 if( i == 4 && grossSalary > 150000){ //Checks if the top rate of tax needs to be applied
                     taxableAmount = grossSalary - 150000; // take the top threshold away from the gross Salary to get the taxable amount. 
-                    taxAmount = taxAmount + taxableAmount * scotTaxRates[5]; // Times the taxable ammount by the top rate taxrate. 
+                    taxAmount = taxAmount + (taxableAmount * scotTaxRates[5]); // Times the taxable ammount by the top rate tax rate. 
                     System.out.println("The ammount that is taxible in tax bracket " + i + " is " + taxableAmount + "the ammount taxed is " + (int)taxAmount);
                 }
             }
-            
             else if(grossSalary < personalAllowance + scotTaxThresholds[i])
             {
                 taxableAmount  = (grossSalary - (personalAllowance + scotTaxThresholds[i-1])); //Find the difference between the gross Salary and the previous threshold + their personal allowance.
@@ -80,6 +104,6 @@ public class MortgageApplication {
                 break;
             }
             }
-           
-       }
- 
+
+    }
+}

@@ -18,9 +18,8 @@ public class BankingApplication {
         // TODO code application logic here
         
         MortgageApplication myMApp = new MortgageApplication();
-        myMApp.setGross(25000);
-        myMApp.calcNetSalary(true);
-        Print
+        myMApp.setGross(124000);
+        myMApp.calcNetSalary(true,true); 
     }
     
 }
