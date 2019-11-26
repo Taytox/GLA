@@ -10,52 +10,58 @@ package BankingApplication;
  * @author Euan
  */
 public class MortgageApplication {
-    private int netSalary;
-    private int grossSalary;
+    private static int netSalary;
+    private static int grossSalary;
+    private static int personalAllowance;
+
+        
    
     public MortgageApplication(){
        netSalary = 0; 
        grossSalary = 0;
     }
     
-    public void setNet(int newNet){
+    public static void setNet(int newNet){
         netSalary = newNet;
     }
-    public int getNet(){
+    public static int getNet(){
         return netSalary;
     }
     
-    public void setGross(int newGross){
+    public static void setGross(int newGross){
         grossSalary = newGross;
     }
-    public int getGross(){
+    public static int getGross(){
         return grossSalary;
     }
-    public void calcNetSalary(boolean taxSystem, boolean employmentStatus){
-        int niAmount = 0; 
-
+    public static double calcNetSalary(boolean taxSystem, boolean employmentStatus){
         boolean scotlandTax = taxSystem;//Is the user in England & Wales or Scotland. 
         boolean selfEmployed = employmentStatus; //If someone is self employed they pay NI at different thresholds.
+        double incomeTax; 
+        double nationalInsurance;
+        double deductions;
+        double netSalary;
         
-
+        nationalInsurance = calcNI(employmentStatus);
+        calcPersonalAllowance();
         
-       if(scotlandTax == true) { //If the Applicant is located in Scotland an has to have scottish income tax applied
-
-           if(selfEmployed == true) { //If the applicant is self employed.
-               
-           }
-           else {  // if the user is not self employed
-               
-           }
-       }
+    if(scotlandTax == true) { //If the Applicant is located in Scotland an has to have scottish income tax applied
+        incomeTax = scottishIncomeTax();
+    } 
+    else {
+        
+        incomeTax = englishIncomeTax();
+    }
+    deductions = incomeTax + nationalInsurance;
+    netSalary = grossSalary - deductions;
+        return netSalary;
+    }
        
        
     
-}
-    private void calcPersonalAllowance(int pA){
-        int personalAllowance = pA;
-        
-                if(grossSalary > 125000){ //If someone earns over £125,000 their personal allowance is £0
+
+    private static void calcPersonalAllowance(){
+        if(grossSalary > 125000){ //If someone earns over £125,000 their personal allowance is £0
             personalAllowance = 0;
         }
         else if (grossSalary >=100000) //If someone earns over £100,000 then their personal allowance is reduced by £1 for ever £2 over until £125,000
@@ -69,41 +75,94 @@ public class MortgageApplication {
         }
             else{ // if the applicant does not earn over £100,000 apply the default rate of £12,500
                     personalAllowance = 12500; 
-                    }   
+                    }
     }
-    private void scottishIncomeTax(){
+    private static double scottishIncomeTax(){
         /*
        This method takes a boolean to represnt which tax system needs to be used. It calculates their presonal tax allowence and then determines how much tax they pay in each band.   
-       Scottish income tax results were tested against :  https://www.scotfact.com/ScottishTaxCalculator 
+       Scottish income tax results were tested against :  https://www.scotfact.com/ScottishTaxCalculator. Rates taken from https://www.gov.uk/government/publications/rates-and-allowances-income-tax/income-tax-rates-and-allowances-current-and-past#tax-rates-and-bands. 
         */
-        
         double taxableAmount = 0;
-        int[] scotTaxThresholds ={0,2049,12444,30930,150000}; // these are added to the applicants personal allowances to generate the thresholds, except for 150000 which is the flat limit for the top rate
+        double[] scotTaxThresholds ={0,2049,12444,30930,150000}; // these are added to the applicants personal allowances to generate the thresholds, except for 150000 which is the flat limit for the top rate
         double[] scotTaxRates = {0,0.19,0.20,0.21,0.41,0.46};
-        int personalAllowance = 0;
         double taxAmount = 0;
-        
-           for (int i = 1; i <= 4; i++){
+
+        for (int i = 1; i <= 4; i++){
             if (grossSalary >= personalAllowance + scotTaxThresholds[i]) //if their gross salary is less than their personal allowance and the current tax threshold
             {
                 taxableAmount = (scotTaxThresholds[i] - scotTaxThresholds[i-1]); //Find out how much of the amount is taxable in this bracket
                 taxAmount = taxAmount + (taxableAmount * scotTaxRates[i]);  //Times the ammount taxable by the tax rate. 
-                System.out.println("The ammount that is taxible in tax bracket " + i + " is " + taxableAmount + "the ammount taxed is " + (int)taxAmount);
                 
-                if( i == 4 && grossSalary > 150000){ //Checks if the top rate of tax needs to be applied
+            if( i == 4 && grossSalary > 150000){ //Checks if the top rate of tax needs to be applied
                     taxableAmount = grossSalary - 150000; // take the top threshold away from the gross Salary to get the taxable amount. 
-                    taxAmount = taxAmount + (taxableAmount * scotTaxRates[5]); // Times the taxable ammount by the top rate tax rate. 
-                    System.out.println("The ammount that is taxible in tax bracket " + i + " is " + taxableAmount + "the ammount taxed is " + (int)taxAmount);
-                }
+                    taxAmount = taxAmount + (taxableAmount * scotTaxRates[i+1]); // Times the taxable ammount by the top rate tax rate. 
+            }
             }
             else if(grossSalary < personalAllowance + scotTaxThresholds[i])
             {
+                if (grossSalary < personalAllowance){
+                    taxableAmount = 0;
+                    break;
+                }
                 taxableAmount  = (grossSalary - (personalAllowance + scotTaxThresholds[i-1])); //Find the difference between the gross Salary and the previous threshold + their personal allowance.
                 taxAmount = taxAmount + (taxableAmount * scotTaxRates[i]); //Times the ammount taxable by the tax rate. 
-                System.out.println("The final ammount that is taxible in tax bracket " + i + " is " + taxableAmount + "the ammount taxed is " + (int)taxAmount);
                 break;
             }
-            }
-
+          
+        }
+  return taxAmount;
     }
-}
+    private static double englishIncomeTax(){
+    /*
+       This method takes a boolean to represnt which tax system needs to be used. It calculates their presonal tax allowence and then determines how much tax they pay in each band.   
+       Scottish income tax results were tested against :  https://www.which.co.uk/money/tax/tax-calculators/income-tax-calculator-ad9xh2l9wxxr Rates taken from https://www.gov.uk/government/publications/rates-and-allowances-income-tax/income-tax-rates-and-allowances-current-and-past#tax-rates-and-bands. 
+    */
+    double taxableAmount = 0;  
+    double[] engTaxThresholds ={0,37500,150000}; // these are added to the applicants personal allowances to generate the thresholds, except for 150000 which is the flat limit for the top rate
+    double[] engTaxRates = {0,0.20,0.40,0.45}; 
+    double taxAmount = 0;
+    
+            for (int i = 1; i <= 2; i++){
+            if (grossSalary >= personalAllowance + engTaxThresholds[i]) //if their gross salary is less than their personal allowance and the current tax threshold
+            {
+                taxableAmount = (engTaxThresholds[i] - engTaxThresholds[i-1]); //Find out how much of the amount is taxable in this bracket
+                taxAmount = taxAmount + (taxableAmount * engTaxRates[i]);  //Times the ammount taxable by the tax rate. 
+                
+            if( i == 2 && grossSalary > 150000){ //Checks if the top rate of tax needs to be applied
+                    taxableAmount = grossSalary - 150000; // take the top threshold away from the gross Salary to get the taxable amount. 
+                    taxAmount = taxAmount + (taxableAmount * engTaxRates[i+1]); // Times the taxable ammount by the top rate tax rate. 
+            }
+            }
+            else if(grossSalary < personalAllowance + engTaxThresholds[i])
+            {
+                if (grossSalary < personalAllowance){
+                    taxableAmount = 0;
+                    break;
+                }
+                taxableAmount  = (grossSalary - (personalAllowance + engTaxThresholds[i-1])); //Find the difference between the gross Salary and the previous threshold + their personal allowance.
+                taxAmount = taxAmount + (taxableAmount * engTaxRates[i]); //Times the ammount taxable by the tax rate. 
+                break;
+            }
+    
+    
+  
+    }
+              return taxAmount;  
+    }
+    private static double calcNI(boolean employmentStatus){
+        double niAmount = 0;
+   
+        if (employmentStatus == true){
+            if (grossSalary > 50001){
+                niAmount = ((grossSalary - 50000) * 0.02) +  4964.16;
+            } 
+            else if (grossSalary > 8632 ){
+                niAmount = (grossSalary - 8632) * 0.12;
+            } 
+            else{
+                niAmount = 0;
+            }
+        }
+    return niAmount;
+    }
+}    
