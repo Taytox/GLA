@@ -11,46 +11,60 @@ package BankingApplication;
  */
 public class MortgageApplication {
     private static int netSalary;
-    private static int grossSalary;
+    private static double grossSalary;
     private static int personalAllowance;
-
-        
-   
+    
+    /**
+    * Constructor for the MortgageApplication Class
+    */
     public MortgageApplication(){
        netSalary = 0; 
        grossSalary = 0;
     }
-    
+    /**
+     * Sets the value of netSalary
+     * 
+     * @param newNet the value to set netSalary to.
+     */
     public static void setNet(int newNet){
         netSalary = newNet;
     }
+    /**
+     * Method for accessing the netSalary field 
+     * 
+     * @return value held in netSalary
+     */
     public static int getNet(){
         return netSalary;
     }
     
-    public static void setGross(int newGross){
+    public static void setGross(double newGross){
         grossSalary = newGross;
     }
-    public static int getGross(){
+    public static double getGross(){
         return grossSalary;
     }
-    public static double calcNetSalary(boolean taxSystem, boolean employmentStatus){
-        boolean scotlandTax = taxSystem;//Is the user in England & Wales or Scotland. 
-        boolean selfEmployed = employmentStatus; //If someone is self employed they pay NI at different thresholds.
+    
+    
+    public static double calcNetSalary(int location, int status){
+        //boolean scotlandTax = taxSystem;//Is the user in England & Wales or Scotland. 
+        //boolean selfEmployed = employmentStatus; //If someone is self employed they pay NI at different thresholds.
         double incomeTax; 
         double nationalInsurance;
         double deductions;
         double netSalary;
         
-        nationalInsurance = calcNI(employmentStatus);
+        nationalInsurance = calcNI(status);
         calcPersonalAllowance();
         
-    if(scotlandTax == true) { //If the Applicant is located in Scotland an has to have scottish income tax applied
+    if(location == 2) { //If the Applicant is located in Scotland an has to have scottish income tax applied
         incomeTax = scottishIncomeTax();
+        System.out.println("Using Scottish IncomeTax");
     } 
     else {
         
         incomeTax = englishIncomeTax();
+        System.out.println("Using English IncomeTax");
     }
     deductions = incomeTax + nationalInsurance;
     netSalary = grossSalary - deductions;
@@ -66,7 +80,7 @@ public class MortgageApplication {
         }
         else if (grossSalary >=100000) //If someone earns over £100,000 then their personal allowance is reduced by £1 for ever £2 over until £125,000
         {
-            int overrate = grossSalary - 100000; //finds out how much of the gross ammount is over 100000. 
+            double overrate = grossSalary - 100000; //finds out how much of the gross ammount is over 100000. 
             personalAllowance = 12500;
             while (overrate >= 1){  //while the ammount over £100,000 is greater than 1
                 personalAllowance = personalAllowance -1; //remove £1 from the applicants personal allowance 
@@ -80,7 +94,7 @@ public class MortgageApplication {
     private static double scottishIncomeTax(){
         /*
        This method takes a boolean to represnt which tax system needs to be used. It calculates their presonal tax allowence and then determines how much tax they pay in each band.   
-       Scottish income tax results were tested against :  https://www.scotfact.com/ScottishTaxCalculator. Rates taken from https://www.gov.uk/government/publications/rates-and-allowances-income-tax/income-tax-rates-and-allowances-current-and-past#tax-rates-and-bands. 
+       Scottish income tax results were tested against :  https://www.scotfact.com/ScottishTaxCalculator Rates taken from https://www.gov.uk/government/publications/rates-and-allowances-income-tax/income-tax-rates-and-allowances-current-and-past#tax-rates-and-bands. 
         */
         double taxableAmount = 0;
         double[] scotTaxThresholds ={0,2049,12444,30930,150000}; // these are added to the applicants personal allowances to generate the thresholds, except for 150000 which is the flat limit for the top rate
@@ -149,10 +163,21 @@ public class MortgageApplication {
     }
               return taxAmount;  
     }
-    private static double calcNI(boolean employmentStatus){
-        double niAmount = 0;
-   
-        if (employmentStatus == true){
+    private static double calcNI(int status){
+    double niAmount = 0;
+    
+        if (status == 1){ //if the user is Self Employed
+            if (grossSalary > 50001){ 
+                niAmount = ((grossSalary - 50000) * 0.02) +  3723.12 + 156 ;
+            } 
+            else if (grossSalary > 8632 ){
+                niAmount = (grossSalary - 8632) * 0.09;
+            }
+            else {
+                niAmount = 156;
+            }
+        }
+        if (status == 2){ //if the user is employed
             if (grossSalary > 50001){
                 niAmount = ((grossSalary - 50000) * 0.02) +  4964.16;
             } 
