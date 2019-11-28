@@ -10,7 +10,6 @@ import java.util.Scanner;
  * @author Euan
  */
 public class BankingApplication {
-
     /**
      * @param args the command line arguments
      */
@@ -19,7 +18,6 @@ public class BankingApplication {
      * 
      * @param args 
      */
-    
     public static void main(String[] args) {
         // TODO code application logic here
         boolean exit = false; 
@@ -51,7 +49,7 @@ public class BankingApplication {
         }
     }
     /**
-     * This Method displays menus as well as user prompts. 
+     * Displays menus as well as user prompts. 
      * 
      * @param menuCode determines which menu or prompt is required. 
      */

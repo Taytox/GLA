@@ -17,38 +17,58 @@ public class MortgageApplication {
     /**
     * Constructor for the MortgageApplication Class
     */
+    
     public MortgageApplication(){
        netSalary = 0; 
        grossSalary = 0;
     }
+    
     /**
      * Sets the value of netSalary
      * 
      * @param newNet the value to set netSalary to.
      */
+    
     public static void setNet(int newNet){
         netSalary = newNet;
     }
+    
     /**
      * Method for accessing the netSalary field 
      * 
      * @return value held in netSalary
      */
+    
     public static int getNet(){
         return netSalary;
     }
     
+    /**
+     * Sets the value of GrossSalary
+     * @param newGross the value to set grossSalary too.
+     */
+    
     public static void setGross(double newGross){
         grossSalary = newGross;
     }
+    
+    /**
+     * Returns the value held in GrossSalary. 
+     * @return 
+     */
+    
     public static double getGross(){
         return grossSalary;
-    }
+    }  
     
+    /**
+     * Calculates the applicants net salary
+     * @param location <code>1</code> if user is located in England or wales, <code>2</code> if they are in Scotland. 
+     * @param status <code>1</code> if user is self employed, <code>2</code> if not. 
+     * @return the applicants net salary amount. 
+     */
     
     public static double calcNetSalary(int location, int status){
-        //boolean scotlandTax = taxSystem;//Is the user in England & Wales or Scotland. 
-        //boolean selfEmployed = employmentStatus; //If someone is self employed they pay NI at different thresholds.
         double incomeTax; 
         double nationalInsurance;
         double deductions;
@@ -70,10 +90,11 @@ public class MortgageApplication {
     netSalary = grossSalary - deductions;
         return netSalary;
     }
-       
-       
     
-
+    /**
+     * 
+     */
+    
     private static void calcPersonalAllowance(){
         if(grossSalary > 125000){ //If someone earns over £125,000 their personal allowance is £0
             personalAllowance = 0;
@@ -91,6 +112,7 @@ public class MortgageApplication {
                     personalAllowance = 12500; 
                     }
     }
+    
     private static double scottishIncomeTax(){
         /*
        This method takes a boolean to represnt which tax system needs to be used. It calculates their presonal tax allowence and then determines how much tax they pay in each band.   
@@ -126,6 +148,7 @@ public class MortgageApplication {
         }
   return taxAmount;
     }
+    
     private static double englishIncomeTax(){
     /*
        This method takes a boolean to represnt which tax system needs to be used. It calculates their presonal tax allowence and then determines how much tax they pay in each band.   
@@ -163,6 +186,7 @@ public class MortgageApplication {
     }
               return taxAmount;  
     }
+    
     private static double calcNI(int status){
     double niAmount = 0;
     
