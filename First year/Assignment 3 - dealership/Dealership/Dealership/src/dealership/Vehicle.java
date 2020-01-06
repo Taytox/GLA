@@ -47,22 +47,28 @@ public abstract class Vehicle {
    public String getMake(){
        return vehicleMake;
    }
+   
    public String getModel(){
        return vehicleModel;
    }
+   
    public int getYearMade(){
       return vehicleYearMade;
    }
+   
    public String getColour(){
        return this.vehicleColour.getDisplayName();
    }
+   
    public String getGearType(){
        return this.vehicleGearType.getDisplayName();
    }
-    public int getVIN(){
+   
+   public int getVIN(){
         return vehicleVIN;
     }
-    /**
+   
+   /**
      *  Prints a list of the current additions that a vehicle has 
      */
     protected void checkForAddition(){
@@ -73,12 +79,25 @@ public abstract class Vehicle {
        count++;
     }
     }
-    protected String getAdditions(){
-     System.out.println("VIN: " + vehicleVIN + "Make: " + vehicleMake + "Model: ");
+   
+    protected String getAdditionsList(){
+    int counter = 0; 
+    String additions = "";
+    
+    if (vehicleAdditions.size() > 0){
+        while(counter < vehicleAdditions.size()){
+        additions = additions + " " + vehicleAdditions.get(counter).getDisplayName();
+        counter++;
+        }
     }
-     int counter = 0; 
+    else{
+    additions = "None";
+    }
+    
+    return additions;
+    }
+    
      
-     if (vehicleAdditions.
-     while (counter <=)
+     
       }
 

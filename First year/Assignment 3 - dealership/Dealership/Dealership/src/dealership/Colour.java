@@ -13,7 +13,7 @@ public enum Colour {
     /*
     enum which holds the top 10 car colours in the uk for 2019, taken from https://www.buyacar.co.uk/cars/642/best-car-colours
     */
-BLACK("black"),GREY("grey"),WHITE("white"),BLUE("blue"),SILVER("silver"),RED("red"),GREEN("green"),ORANGE("orange"),BRONZE("bronze"),YELLOW("yellow");
+BLACK("Black"),GREY("Grey"),WHITE("White"),BLUE("Blue"),SILVER("Silver"),RED("Red"),GREEN("Green"),ORANGE("Orange"),BRONZE("Bronze"),YELLOW("Yellow");
 final private String displayName;
 
 Colour (String displayName){

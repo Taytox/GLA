@@ -10,7 +10,7 @@ package dealership;
  * @author EZLuke
  */
 public enum PossibleAdditions {
-   SATNAV(" sat nav "), PARKINGSENSOR(" parking sensor "), TOWBAR(" tow bar "),ROOFRACK(" roof rack ");  
+   SATNAV("sat nav "), PARKINGSENSOR("parking sensor "), TOWBAR("tow bar "),ROOFRACK("roof rack ");  
    final private String displayName;
 
 PossibleAdditions(String displayName){
