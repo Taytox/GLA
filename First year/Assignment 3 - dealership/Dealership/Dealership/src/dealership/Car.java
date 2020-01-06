@@ -9,8 +9,8 @@ package dealership;
  *
  * @author Euan Luke
  */
-public class Car extends Vehicle {
-private final BodyType carType;
+public abstract class Car extends Vehicle {
+
     
     
 /**
@@ -24,9 +24,9 @@ private final BodyType carType;
  * @param gearType
  * @param additions 
  */
-    public Car(String make, String model, int yearMade, Colour colour,BodyType type, double milage, int VIN, Gearbox gearType, PossibleAdditions... additions) {
+    public Car(String make, String model, int yearMade, Colour colour,double milage, int VIN, Gearbox gearType, PossibleAdditions... additions) {
         super(make, model, yearMade, colour, milage, VIN, gearType, additions);
-        carType = type;
+   
     }
     /**
      * Changes the additions stored for a vehicle 
@@ -62,8 +62,4 @@ private final BodyType carType;
     
         }
     }
-
-public BodyType getBodyType(){
-return carType; 
-} 
 }
