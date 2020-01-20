@@ -6,13 +6,14 @@
 package dealership;
 
 import java.util.Scanner;
+import java.util.ArrayList;
 
 /**
  * Dealership class, used to create and manage vehicle objects. 
  * @author Euan Luke
  */
 public class Dealership {
-    static Vehicle[] stock = new Vehicle[5];
+    static ArrayList<Vehicle> stock = new ArrayList<Vehicle>();
     static Scanner sc = new Scanner(System.in);
     /**
      * main method for package. 
@@ -47,11 +48,16 @@ public class Dealership {
      * Adds demo vehicles into stock
      */
     public static void addStock(){
-        stock[0]= (new Hatchback("Ford","Focus",2016,Colour.BLUE,10000,"1HGBH41JXMN109186",Gearbox.MANUAL,PossibleAdditions.SATNAV,PossibleAdditions.PARKINGSENSOR,PossibleAdditions.TOWBAR));
-        stock[1]=(new Estate("Audi","RS6",2013,Colour.BLACK,50000,"1RTGY72HYNH824926",Gearbox.MANUAL,PossibleAdditions.SATNAV));
-        stock[2]=(new Saloon("Mercedes-Benz","C-Class",2015,Colour.RED,13000,"7YJVN85REYG264862",Gearbox.AUTOMATIC));
-        stock[3]=(new Suv("Land Rover","Range Rover",2000,Colour.GREEN,73000,"5UNHF65YREN850584",Gearbox.AUTOMATIC,PossibleAdditions.TOWBAR,PossibleAdditions.ROOFRACK));
-        stock[4]=(new Motorbike("Harley-Davidson","Iron 883",2018,Colour.BLACK,11000,"1NJYC65HEMT185403",Gearbox.MANUAL));
+      
+        
+        
+        stock.add(new Hatchback("Ford","Focus",2016,Colour.BLUE,10000,"1HGBH41JXMN109186",Gearbox.MANUAL,PossibleAdditions.SATNAV,PossibleAdditions.PARKINGSENSOR,PossibleAdditions.TOWBAR));
+        stock.add(new Estate("Audi","RS6",2013,Colour.BLACK,50000,"1RTGY72HYNH824926",Gearbox.MANUAL,PossibleAdditions.SATNAV));
+        stock.add(new Saloon("Mercedes-Benz","C-Class",2015,Colour.RED,13000,"7YJVN85REYG264862",Gearbox.AUTOMATIC));
+        stock.add(new Suv("Land Rover","Range Rover",2000,Colour.GREEN,73000,"5UNHF65YREN850584",Gearbox.AUTOMATIC,PossibleAdditions.TOWBAR,PossibleAdditions.ROOFRACK));
+        stock.add(new Motorbike("Harley-Davidson","Iron 883",2018,Colour.BLACK,11000,"1NJYC65HEMT185403",Gearbox.MANUAL));
+        
+        
     }
     
     /**
@@ -61,8 +67,8 @@ public class Dealership {
     
         System.out.println("\nCurrent Stock");
         System.out.format("|%-20s|%-16s|%-16s|%-16s|%-16s|%-16s|%-32s|%n","VIN", "Make", "Model","Year","Colour","Gearbox", "Additions"); //used to format headings to get them into a table output. 
-        for(Vehicle i : stock){
-            getVehicleDetails(i);
+        for (Vehicle i : stock){
+            getVehicleDetails(i);  
         }
     }
     
