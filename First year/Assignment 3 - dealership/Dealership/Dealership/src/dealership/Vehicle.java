@@ -12,14 +12,13 @@ import java.util.ArrayList;
  * @author Euan Luke
  */
 public abstract class Vehicle {
-  protected String vehicleMake; 
-  protected int vehicleYearMade;
-  protected String vehicleModel;
-  protected Colour vehicleColour;
-  protected double vehicleMilage; 
-  protected  String vehicleVIN;
-  protected Gearbox vehicleGearType;
-  protected ArrayList<PossibleAdditions> vehicleAdditions = new ArrayList<>();
+  private final String vehicleMake; 
+  private final int vehicleYearMade;
+  private final String vehicleModel;
+  private Colour vehicleColour;
+  private int vehicleMilage; 
+  private final String vehicleVIN;
+  private final Gearbox vehicleGearType;
    /**
     * Constructor of vehicle objects
     * @param make make of vehicle
@@ -29,9 +28,8 @@ public abstract class Vehicle {
     * @param milage milage of vehicle
     * @param VIN vehicle identification number
     * @param gearType gear box type of vehicle 
-    * @param additions additions added to the vehicle
     */
-   public Vehicle(String make, String model, int yearMade, Colour colour, double milage,String VIN,Gearbox gearType, PossibleAdditions... additions){
+   public Vehicle(String make, String model, int yearMade, Colour colour, int milage,String VIN,Gearbox gearType){
     vehicleMake = make;
     vehicleModel = model;
     vehicleYearMade = yearMade;
@@ -39,13 +37,7 @@ public abstract class Vehicle {
     vehicleMilage = milage; 
     vehicleVIN = VIN;
     vehicleGearType = gearType;
-    int counter = 0;
-    while (counter < additions.length){
-        vehicleAdditions.add(additions[counter]);
-        counter++;
-    }
    }
-   
    /**
     * Sets the colour of a vehicle 
     * @param newColour colour to set
@@ -58,7 +50,7 @@ public abstract class Vehicle {
     * Sets the Milage of a vehicle 
     * @param newMilage value to set milage to
     */
-   public void setMilage(double newMilage){
+   public void setMilage(int newMilage){
        vehicleMilage = newMilage;
    }
    
@@ -90,8 +82,8 @@ public abstract class Vehicle {
     * Gets the colour of the vehicle
     * @return the colour of the vehicle
     */
-   public String getColour(){
-       return this.vehicleColour.getDisplayName();
+   public Colour getColour(){
+       return vehicleColour;
    }
    
    /**
@@ -109,36 +101,18 @@ public abstract class Vehicle {
    public String getVIN(){
         return vehicleVIN;
     }
- 
-   /**
-    * Builds a string of all the additions the vehicle has. 
-    * @return string of additions the vehicle has. 
-    */
-    protected String getAdditionsList(){
-    int counter = 0; 
-    String additions = "";
-    
-    if (vehicleAdditions.size() > 0){
-        while(counter < vehicleAdditions.size()){
-        additions = additions + " " + vehicleAdditions.get(counter).getDisplayName();
-        counter++;
-        }
+   
+    @Override
+    public String toString() {
+        return vehicleVIN+ " |" + vehicleMake+ " |" +vehicleModel+ " |" +vehicleYearMade+ " |" + vehicleMilage+ " |" +vehicleColour.toString()+ " |" +vehicleGearType+ " | ";
     }
-    else{
-    additions = "None";
+   
+    public String possibleadditions(){
+        return ""; 
     }
-    
-    return additions;
-    }
-    
-    /**
-     * Allows additions to be added to the vehicle, is blank and overwritten in subclasses. 
-     * @param addition addition to add
-     */
-    protected void addAddition(PossibleAdditions addition){
-        //Empty on purpose, overwritten in subclasses. 
-    }
-     
-     
-      }
+   public void modifyVehicle(String Addition){
+       //overwritten in Child Classes. 
+   }
+}
+
 

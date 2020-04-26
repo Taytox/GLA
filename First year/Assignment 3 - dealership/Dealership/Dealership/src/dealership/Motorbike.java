@@ -10,63 +10,67 @@ package dealership;
  * @author Euan Luke
  */
 public class Motorbike extends Vehicle {
+    private boolean luggageBox;
+    /**
+    *  Constructor for Motorbike class
+    * 
+    * @param make make of the motorbike
+    * @param model model of the motorbike
+    * @param yearMade year the motorbike was made
+    * @param colour colour of the motorbike
+    * @param milage milage of the motorbike
+    * @param VIN Vehicle Identification Number of the motorbike
+    * @param gearType gearbox type of the motorbike
+    * @param additions additions added to the motorbike
+    */
+    public Motorbike(String make, String model, int yearMade, Colour colour, int milage, String VIN, Gearbox gearType, boolean luggageBox){
+        
+        super(make, model, yearMade, colour, milage, VIN, gearType);
+        this.luggageBox = luggageBox;
+    } 
     
-/**
- *  Constructor for Motorbike class
- * 
- * @param make make of the motorbike
- * @param model model of the motorbike
- * @param yearMade year the motorbike was made
- * @param colour colour of the motorbike
- * @param milage milage of the motorbike
- * @param VIN Vehicle Identification Number of the motorbike
- * @param gearType gearbox type of the motorbike
- * @param additions additions added to the motorbike
- */
-    public Motorbike(String make, String model, int yearMade, Colour colour, double milage, String VIN, Gearbox gearType, PossibleAdditions... additions) {
-        super(make, model, yearMade, colour, milage, VIN, gearType, additions);
+    public void addLuggageBox(){
+        luggageBox = true;
     }
     
+    public void removeLuggageBox(){
+        luggageBox = false; 
+    }
     
-    /**
-     * Allows additions to be added to motorbike objects
-     * 
-     * @param addition  addition to be added
-     */
+    public boolean hasLuggageBox(){
+        
+        return luggageBox;
+    }
+    
     @Override
-    protected void addAddition(PossibleAdditions addition){
-        
-        if (vehicleAdditions.contains(addition)){
-                System.out.println("This bike already has this addition");
+    public String toString() {
+        String addition;
+        if(luggageBox){   
+            return super.toString() + "Luggage box |";
+        }else
+            return super.toString() + "";
+            
         }
-        else
-        {
-        switch(addition){
-                case LUGGAGEBOX:
-                    System.out.println("Luggage box added");
-                    vehicleAdditions.add(addition);
-                    break;
-                default: 
-                    System.out.println("This addition is not suitable for this vehicle");
-                    break;
+      @Override
+    public String possibleadditions(){
+        String additions = "";
+        if(!luggageBox){
+            additions = additions + "Luggage Box|";
         }
-        
+        return additions;
+    }
+    
+    @Override 
+    public void modifyVehicle(String Addition){
+    
+        switch(Addition){
+            case("Luggage Box"):
+                addLuggageBox();
+                break;
+            case("remove"):
+                removeLuggageBox();
+                break;
+        }
         
     }
-    }
-    /**
-     * Allows additions to be removed from Motorbike Objects
-     * 
-     * @param addition Addition to be removed.  
-     */
-    protected void removeAddition(PossibleAdditions addition){
-        
-        if (!vehicleAdditions.contains(addition)){
-                System.out.println("This bike does not have that addition");
-        } 
-        else
-        {
-          vehicleAdditions.remove(addition);  
-        }
-}
 }

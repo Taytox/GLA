@@ -10,6 +10,9 @@ package dealership;
  * @author Euan Luke
  */
 public class Suv extends Car{
+    
+    private boolean hasAllWheelDriveTrain;
+
 /**
  * Constructor for SUV class 
  * @param make make of SUV
@@ -19,50 +22,54 @@ public class Suv extends Car{
  * @param milage milage of the SUV
  * @param VIN Vehicle Identification Number of SUV  
  * @param gearType Gearbox Type of SUV
- * @param additions Any additions added to the SUV 
+ * @param satNav
+ * @param parkingSensor
+ * @param towBar
+ * @param roofRack
+ * @param allWheelDriveTrain
  */
-    public Suv(String make, String model, int yearMade, Colour colour,double milage, String VIN, Gearbox gearType, PossibleAdditions... additions) {
-        super(make, model, yearMade, colour,milage, VIN, gearType, additions);
-    }
-  
-    /**
-     * Allows additions to be added to SUV objects. Overwrites method in Car class
-     * @param addition 
-     */
-    @Override
-    public void addAddition(PossibleAdditions addition){
-            
-        if (vehicleAdditions.contains(addition)){
-           System.out.println("This car already has this addition");
-        }
-        else
-        {
-            switch(addition){
-                case SATNAV:
-                    System.out.println("Adding sat Nav. ");
-                    vehicleAdditions.add(addition);
-                    break;
-                case PARKINGSENSOR:
-                    System.out.println("Adding a parking sensor");
-                    vehicleAdditions.add(addition);
-                    break; 
-                case TOWBAR:
-                    System.out.println("Adding a tow bar");
-                    vehicleAdditions.add(addition);
-                    break;
-                case ROOFRACK:
-                    System.out.println("Adding a roof rack");
-                    vehicleAdditions.add(addition);
-                    break;
-                case DRIVETRAIN:
-                    System.out.println("Adding All-Wheel Drive Train");
-                    vehicleAdditions.add(addition);
-                    break;
-                default: 
-                    System.out.println("This addition is not suitable for this vehicle");
-                    break; 
-            }
     
-        }
+    public Suv(String make, String model, int yearMade, Colour colour, int milage, String VIN, Gearbox gearType, boolean satNav, boolean parkingSensor, boolean towBar, boolean roofRack, boolean allWheelDriveTrain) {
+        super(make, model, yearMade, colour, milage, VIN, gearType, satNav, parkingSensor, towBar, roofRack);
+        
+    hasAllWheelDriveTrain = allWheelDriveTrain;
+    
     }
+    public void addAllWheelDriveTrain() {
+       hasAllWheelDriveTrain = true;
+    }
+    @Override
+    public String toString() {
+        String carAdditions;
+        if(hasAllWheelDriveTrain){
+            return super.toString() + " All Wheel Drive Train";
+            }
+         return super.toString();
+    }
+    @Override
+    public String possibleadditions(){
+        String additions = super.possibleadditions();
+        if(!hasAllWheelDriveTrain){
+            additions = additions + "All Wheel Drive Train|";
+        }
+        return additions;
+ 
+    }
+    /**
+     * Manages additions being changed. 
+     * @param Addition addition to be added.
+     */
+    @Override 
+    public void modifyVehicle(String Addition){
+    
+        switch(Addition){
+            case("All Wheel Drive Train"):
+                addAllWheelDriveTrain();
+                break;
+        }
+         super.modifyVehicle(Addition);
+      
+    } 
 }
+
+

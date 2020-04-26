@@ -1,0 +1,10 @@
+Hatchback|Ford|Focus|2016|BLUE|1000|VIN|MANUAL|true|true|true|false|false|false|false
+Estate|Audi|RS6|2013|BLACK|50000|1RTGY72HYNH824926|MANUAL|false|false|false|false|false|true|false
+Saloon|Mercedes-Benz|C-Class|2015|RED|13000|7YJVN85REYG264862|AUTOMATIC|false|false|false|false|false|false|false
+Suv|Land Rover|Range Rover|2000|GREEN|73000|5UNHF65YREN850584|AUTOMATIC|false|false|true|true|true|false|false
+Motorbike|Harley-Davidson|Iron 883|2018|BLACK|11000|1NJYC65HEMT185403|MANUAL|false|false|false|false|false|false|true
+Hatchback|Volkswagen|Golf|2016|BLUE|123232|1S9bAK2eTFoYJc8fo|MANUAL|true|true|false|false|false|false|false
+Estate|Skoda|Superb|2005|GREY|243302|S2P7O8GAttpElp9ob|AUTOMATIC|false|false|false|true|false|true|false
+Saloon|Jaguar|XE|2018|RED|10020|rpGtgmzQ0AnFPKN04|MANUAL|false|false|false|false|false|false|false
+Suv|Volvo|XC90|2001|BRONZE|12872|74kPMwITpbtuM3ZRQ|MANUAL|true|false|true|false|false|false|false
+Motorbike|Honda|CB125R|2005|WHITE|6000|T723a9ZQa0k7J98av|MANUAL|false|false|false|false|false|false|true
