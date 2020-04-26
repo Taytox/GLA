@@ -11,57 +11,146 @@ package dealership;
  */
 public abstract class Car extends Vehicle {
 
+    private boolean satNav;
+    private boolean parkingSensor;
+    private boolean towBar;
+    private boolean roofRack;
+    
     
     
 /**
- *  Constructor for Car objects
- * @param make make of car 
+ * Constructor for car objects. 
+ *  @param make make of car 
  * @param model model of car
  * @param yearMade year car was made
  * @param colour colour of car
  * @param milage milage of car
  * @param VIN Vehicle Identification number of car
  * @param gearType gearbox type of the car
- * @param additions additions added to the car
+ * @param satNav does it have a satnav
+ * @param parkingSensor does it have a parking sensor
+ * @param towBar does it have a towBar
+ * @param roofRack does it have a roofRack
  */
-    public Car(String make, String model, int yearMade, Colour colour,double milage, String VIN, Gearbox gearType, PossibleAdditions... additions) {
-        super(make, model, yearMade, colour, milage, VIN, gearType, additions);
-   
+    public Car(String make, String model, int yearMade, Colour colour,int milage, String VIN, Gearbox gearType,boolean satNav,boolean parkingSensor,boolean towBar,boolean roofRack ) {
+        super(make, model, yearMade, colour, milage, VIN, gearType);
+        this.satNav = satNav;
+        this.parkingSensor = parkingSensor;
+        this.towBar = towBar;
+        this.roofRack = roofRack;
     }
+/**
+ * Allows a satnav to be added
+ */
+    public void addSatNav() {
+        satNav = true;
+    }
+/**
+ * Allows a Parking sensor to be added
+ */
+    public void addParkingSensor() {
+       parkingSensor = true;
+    }
+/**
+ * Allows a towbar to be added
+ */
+    public void addTowBar() {
+        towBar = true;
+    }
+/**
+ * Allows a roofRack to be added
+ */
+    public void addRoofRack() {
+        roofRack = true;
+    }
+ /**
+  * returns a string made up of the additions the vehicle currently has. 
+  * @return additions currently in place. 
+  */
+    public String getCurrentAdditions(){
+        String additions = "";
+        
+        if(satNav){
+            additions = additions + " Satnav";
+        }
+        if(parkingSensor){
+            additions = additions + " Parking Sensor" ;
+        }
+        if (towBar){
+             additions = additions + " Towbar" ;
+        }
+        if (roofRack){
+            additions = additions + " Roofrack " ;
+        }
+        
+        return additions;
+ 
+    }
+    
+
+/**
+ * Provides a string for the object. 
+ * @return 
+ */
+    @Override
+    public String toString() {
+        
+        return super.toString() +getCurrentAdditions();
+                }
+    
+    
     /**
-     * Changes the additions of a car 
-     * @param addition the addition to add.
+     * Returns which additions are still possible for the car. 
+     * @return which additions are still possible for the car. 
      */
     @Override
-    protected void addAddition(PossibleAdditions addition){
-       
-        if (vehicleAdditions.contains(addition)){
-           System.out.println("This car already has this addition");
+    public String possibleadditions(){
+        
+        String additions = "";
+        if(!satNav){
+            additions = additions + "Sat Nav|";
         }
-        else
-        {
-            switch(addition){
-                case SATNAV:
-                    System.out.println("Adding sat Nav. ");
-                    vehicleAdditions.add(addition);
-                    break;
-                case PARKINGSENSOR:
-                    System.out.println("Adding a parking sensor");
-                    vehicleAdditions.add(addition);
-                    break; 
-                case TOWBAR:
-                    System.out.println("Adding a tow bar");
-                    vehicleAdditions.add(addition);
-                    break;
-                case ROOFRACK:
-                    System.out.println("Adding a roof rack");
-                    vehicleAdditions.add(addition);
-                    break;
-                default: 
-                    System.out.println("This addition is not suitable for this vehicle");
-                    break; 
-            }
-    
+        if(!parkingSensor){
+            additions = additions + "Parking Sensor|" ;
         }
+        if (!towBar){
+             additions = additions + "Towbar|" ;
+        }
+        if (!roofRack){
+            additions = additions + "Roofrack|" ;
+        }
+        
+        return additions;
+ 
     }
-}
+    
+    /**
+     * Manages additions being changed. 
+     * @param Addition addition to be added.
+     */
+    @Override 
+    public void modifyVehicle(String Addition){
+    
+        switch(Addition){
+            case("Sat Nav"):
+                addSatNav();
+                break;
+            case("Parking Sensor"):
+                addParkingSensor();
+                break;
+            case("Towbar"):
+                addTowBar();
+                break;
+            case("Roofrack"):
+                addRoofRack();
+                break;
+        }
+        
+        
+    }
+        
+}    
+        
+
+    
+    
