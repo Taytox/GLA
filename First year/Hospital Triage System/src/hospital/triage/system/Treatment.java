@@ -9,12 +9,17 @@ package hospital.triage.system;
  *
  * @author Euan
  */
-public class Treatment {
+public class Treatment implements Pritorisation {
     boolean breachedTargetTime; 
     Patient patientNeedingTreatment;
     long timeTriaged;
     long timeTreated;
-
+    
+    @Override 
+    public int getPriorityLevel(){
+    
+    }
+    
     public Treatment(Patient patient) {
         this.patientNeedingTreatment = patient;
     }
@@ -22,14 +27,22 @@ public class Treatment {
     public boolean getBreachedStatus() {
         return breachedTargetTime;
     }
-    private void setTreatmentTime(long timeTreated){
+    
+    public void setTreatmentTime(long timeTreated){
         this.timeTreated = timeTreated;
     }
-
+    
     public void setTimeTriaged(long timeTriaged) {
         this.timeTriaged = timeTriaged;
     }
     
+    public long getTimeTriaged(){
+        return timeTriaged;
+    }
+    
+    public long getTimeTreated(){
+        return timeTreated;
+    }
     
     
 }

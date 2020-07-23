@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Core.util;
+package hospital.triage.system;
 import java.util.LinkedList;
 import java.util.Queue;
 /**
@@ -11,18 +11,18 @@ import java.util.Queue;
  * @author Euan
  */
 public class PriorityQueue {
-   LinkedList<TestObject> tq = new LinkedList<TestObject>(); 
+   LinkedList<Pritorisation> pq = new LinkedList<Pritorisation>(); 
   
   
     public PriorityQueue(){
  
     }   
     
-    public void additem(TestObject E){
+    public void additem(Treatment E){
         int index = 0;
-        for(TestObject e : tq){
+        for(Treatment e : tq){
             if(e.comparePriorityLevel(E)){
-               tq.add(index, E);
+               pq.add(index, E);
                return;
             }
             index++;
@@ -30,20 +30,44 @@ public class PriorityQueue {
         tq.addLast(E);
     }
     
-    public TestObject removeNextItem(){
+    public Treatment removeNextItem(){
         /**First need to check if any items in the queue have breached
        
         */
-       for(TestObject e : tq){
+       for(Treatment e : tq){
             if(e.checkForBreach()){
                 return e;
             }
         }
        return tq.pop();
     }
+    
+    public boolean checkForBreach(Treatment E){
+        long currentTime = System.currentTimeMillis();
+        
+        if (currentTime - E.timeTreated > maximumTimeAllowedInQueue){
+            hasBreached = true;
+        }
+       return hasBreached;
+        
+     }
+    public boolean comparePriorityLevel(Pritorisation E, int index){
+        if(pq.get(index).getPriorityLevel() > E.getPriorityLevel()){
+        return true;
     }
+        else{
+            return false;
+        }
+        
+    }
+}
+interface Pritorisation{
+    
+    public int getPriorityLevel();
+    public boolean getBreachedStatus(); 
+    
 
-
+}
   /*abstract class PrioritisableItem{
      long timeEnteredTheQueue; 
      long maximumTimeAllowedInQueue; 
