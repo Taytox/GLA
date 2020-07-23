@@ -18,37 +18,39 @@ public class PriorityQueue {
  
     }   
     
-    public void additem(Treatment E){
+    public void additem(Pritorisation E){
         int index = 0;
-        for(Treatment e : tq){
-            if(e.comparePriorityLevel(E)){
+        for(Pritorisation e : pq){
+            if(comparePriorityLevel(E,index)){
                pq.add(index, E);
                return;
             }
             index++;
         }   
-        tq.addLast(E);
+        pq.addLast(E);
     }
     
-    public Treatment removeNextItem(){
+    public Pritorisation removeNextItem(){
         /**First need to check if any items in the queue have breached
        
         */
-       for(Treatment e : tq){
-            if(e.checkForBreach()){
+       for(Pritorisation e : pq){
+            if(checkForBreach(e)){
                 return e;
             }
         }
-       return tq.pop();
+       return pq.pop();
     }
     
-    public boolean checkForBreach(Treatment E){
+    public boolean checkForBreach(Pritorisation E){
         long currentTime = System.currentTimeMillis();
+        boolean breached = false;
         
-        if (currentTime - E.timeTreated > maximumTimeAllowedInQueue){
-            hasBreached = true;
+        if (currentTime - E.getTimeEnteredQueue()> E.getMaximumDuration()){
+             E.hasBreached();
+             breached = true;
         }
-       return hasBreached;
+       return breached;
         
      }
     public boolean comparePriorityLevel(Pritorisation E, int index){
@@ -65,6 +67,10 @@ interface Pritorisation{
     
     public int getPriorityLevel();
     public boolean getBreachedStatus(); 
+    public long getMaximumDuration();
+    public long getTimeEnteredQueue();
+    public void setTimeLeftQueue();
+    public void hasBreached();
     
 
 }
