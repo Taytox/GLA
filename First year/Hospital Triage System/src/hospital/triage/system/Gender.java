@@ -6,7 +6,7 @@
 package hospital.triage.system;
 
 /**
- *
+ *Enum to hold genders
  * @author Euan
  */
 public enum Gender {
