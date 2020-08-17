@@ -11,6 +11,7 @@ package Core.util;
  * @author Euan
  */
 import java.util.Scanner;
+import java.util.Arrays;
 import java.io.File;
 import java.io.FileNotFoundException;
 /**
@@ -213,7 +214,8 @@ public static boolean getYesNo(String prompt){
         return false;
     }
 }
+
+public static String getEnumChoice(Class<? extends Enum<?>> e,String prompt) {
+    return getMultipleChoiceAnswer(prompt,Arrays.stream(e.getEnumConstants()).map(Enum::name).toArray(String[]::new));
+} 
 }
- 
-
-

@@ -6,8 +6,8 @@
 package hospital.triage.system;
 
 /**
- *
- * @author Euan
+ * Enum to hold bloodtypes
+ * @author Euan Luke
  */
 public enum Bloodtype {
     O_POSITIVE,O_NEGATIVE,A_POSITIVE,A_NEGATIVE,B_POSITIVE,B_NEGATIVE,AB_POSITIVE,AB_NEGATIVE;
